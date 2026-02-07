@@ -1,0 +1,537 @@
+/* === Base Layout & Animated Background === */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(135deg, #121c2b, #0e2438);
+  background-size: 400% 400%;
+  animation: gradientShift 18s ease infinite;
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h2 {
+  text-align: center;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* === Navbar === */
+.dashboard-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background: rgba(20, 23, 33, .95);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 18px rgba(0, 255, 255, 0.05);
+}
+
+a.logo-link {
+  text-decoration: none;
+}
+
+.logo {
+  font-size: 2.2rem;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  color: #2fc9b8;
+  padding: 0 12px;
+  text-shadow: 0 0 18px #00ffe580;
+  transition: all 0.3s ease;
+}
+
+a.logo-link:hover .logo {
+  color: #00ffe5;
+  text-shadow: 0 0 22px #00ffd580, 0 0 40px #00ffc880;
+  transform: scale(1.05);
+}
+
+.dashboard-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard-nav ul li {
+  font-size: 1.1rem;
+  cursor: pointer;
+  position: relative;
+  transition: all .3s ease;
+}
+
+.dashboard-nav ul li:hover,
+.dashboard-nav ul li.active {
+  color: #00ffcc;
+}
+
+.dashboard-nav ul li::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, #00ffd5, #00ffb7);
+  transition: width 0.3s ease;
+}
+
+.dashboard-nav ul li:hover::after {
+  width: 100%;
+}
+
+/* === Container === */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 40px auto 0 auto;
+  position: relative;
+  z-index: 1;
+  padding: 0 1rem;
+}
+
+/* === Dashboard Hero === */
+.dashboard-hero-bg {
+  position: relative;
+  width: 100%;
+  max-height: 520px;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.dashboard-hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dashboard-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(28, 39, 53, 0.52);
+  color: #fff;
+  padding: 56px 40px 44px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.dashboard-hero-overlay h2 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 24px;
+  text-shadow: 0 4px 20px #000B;
+}
+
+.hero-points {
+  padding-left: 0;
+  margin: 0;
+}
+
+.hero-points li {
+  font-size: 1.15rem;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-shadow: 0 2px 8px #111a;
+  list-style: none;
+}
+
+/* === Cards & Boxes === */
+.card,
+.box,
+.calculator {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 25px;
+  margin: 20px auto;
+  text-align: center;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 20px rgba(0, 255, 183, 0.15);
+  backdrop-filter: blur(12px);
+  transition: all 0.4s ease;
+  animation: pulseBox 6s infinite ease-in-out;
+}
+
+@keyframes pulseBox {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(0, 255, 183, 0.15);
+  }
+
+  50% {
+    box-shadow: 0 0 35px rgba(0, 255, 183, 0.4);
+  }
+}
+
+.card:hover,
+.box:hover,
+.calculator:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 10px 40px rgba(0, 255, 200, 0.3);
+}
+
+.box h3,
+.calculator h3 {
+  color: #00ffb7;
+}
+
+/* Floating effect for some cards */
+.card {
+  animation: floatCard 5s ease-in-out infinite;
+}
+
+@keyframes floatCard {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* === Buttons === */
+button {
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: none;
+  background: linear-gradient(90deg, #2bc0e4, #00ffd5);
+  color: #1b1b1b;
+  font-weight: 600;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: all .3s ease;
+  box-shadow: 0 0 15px rgba(0, 255, 213, 0.2);
+}
+
+button:hover {
+  background: linear-gradient(90deg, #00ffe0, #00c2ff);
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(0, 255, 213, 0.4);
+}
+
+/* === Lists inside boxes & calculators === */
+.box ul,
+.calculator ul {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.box ul li,
+.calculator ul li {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px 14px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  animation: fadeIn 0.5s ease;
+  transition: all 0.3s;
+  word-break: break-word;
+}
+
+.box ul li:hover,
+.calculator ul li:hover {
+  background: rgba(0, 255, 183, 0.25);
+  transform: translateX(4px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Water Bar === */
+#water-progress-bar {
+  background: #e0e0e0;
+  border-radius: 8px;
+  height: 20px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+#water-bar-inner {
+  background: #42a5f5;
+  width: 0%;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.water-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* === Fitness Checker / Calculator Inputs === */
+.calculator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.calculator h3 {
+  color: #00ffb7;
+  text-shadow: 0 0 10px rgba(0, 255, 183, 0.4);
+  width: 100%;
+}
+
+.calculator select,
+.calculator input {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.95);
+  color: #1e3c72;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.calculator select:hover,
+.calculator input:hover {
+  background: #d9fff6;
+}
+
+/* === Workout Nav & Sections === */
+.workout-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.workout-subsection {
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* === Chatbot Floating Button & Popup === */
+.chatbot-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #42a5f5;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: transform 0.2s ease;
+}
+
+.chatbot-btn:hover {
+  transform: scale(1.1);
+}
+
+.chatbot-btn img {
+  width: 32px;
+  height: 32px;
+}
+
+.assistant-chat-popup {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 300px;
+  max-width: 90%;
+  height: 400px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 9998;
+  font-family: Arial, sans-serif;
+}
+
+.assistant-chat-popup.hide {
+  display: none;
+}
+
+.assistant-chat-header {
+  background-color: #42a5f5;
+  color: #fff;
+  font-weight: bold;
+  padding: 12px;
+  text-align: center;
+}
+
+.assistant-close-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.assistant-chat-body {
+  flex: 1;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+}
+
+.user-bubble,
+.ai-bubble {
+  margin: 5px 0;
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 75%;
+  word-wrap: break-word;
+}
+
+.user-bubble {
+  align-self: flex-end;
+  background-color: #42a5f5;
+  color: #fff;
+}
+
+.ai-bubble {
+  align-self: flex-start;
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.assistant-chat-input-wrap {
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+
+.assistant-chat-input {
+  flex: 1;
+  padding: 8px 10px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.assistant-chat-send-btn {
+  background-color: #42a5f5;
+  color: #fff;
+  border: none;
+  padding: 0 15px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.2s ease;
+}
+
+.assistant-chat-send-btn:hover {
+  background-color: #1e88e5;
+}
+
+/* Scrollbar for chat body */
+.assistant-chat-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.assistant-chat-body::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+/* === Voice Assistant Button === */
+#voice-assistant-btn {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  background-color: #42a5f5;
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+
+/* === Responsiveness === */
+@media (max-width: 900px) {
+  .dashboard-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 9px;
+  }
+
+  .box,
+  .card,
+  .calculator {
+    width: 95%;
+    margin: auto;
+  }
+
+  .dashboard-hero-overlay {
+    padding: 30px 20px;
+  }
+
+  .dashboard-hero-overlay h2 {
+    font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .assistant-chat-popup {
+    width: 95%;
+    bottom: 70px;
+    right: 2.5%;
+    height: 350px;
+  }
+
+  .assistant-chat-header {
+    font-size: 1.1rem;
+    padding: 8px 6px;
+  }
+
+  #voice-assistant-btn {
+    bottom: 90px;
+    left: 20px;
+  }
+}

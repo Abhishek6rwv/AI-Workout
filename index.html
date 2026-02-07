@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="favicon.png" type="image/png" as="image">
+    <title>AI Fitness Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- Background & Navigation -->
+    <div class="dashboard-background"></div>
+
+    <nav class="dashboard-nav">
+        <a href="index.html" class="logo-link">
+            <div class="logo">AI Fitness</div>
+        </a>
+        <ul>
+            <li class="nav-item active" data-target="dashboard">Dashboard</li>
+            <li class="nav-item" data-target="progress">Progress</li>
+            <li class="nav-item" data-target="workouts">Workouts</li>
+            <li class="nav-item" data-target="calculators">Fitness Checker</li>
+            <li class="nav-item" data-target="wellness">Wellness</li>
+        </ul>
+    </nav>
+
+    <main class="dashboard-container">
+
+        <!-- DASHBOARD SECTION -->
+        <section id="dashboard" class="section active dashboard-hero-section">
+
+            <div class="dashboard-hero-bg">
+                <img src="back.webp" alt="Background">
+                <div class="dashboard-hero-overlay">
+                    <h2>Welcome to your Workout Dashboard</h2>
+                    <ul class="hero-points">
+                        <li>✔️ Track your daily workout progress in real time</li>
+                        <li>✔️ Access personalized workout and diet plans</li>
+                        <li>✔️ Visualize progress with graphs and charts</li>
+                        <li>✔️ Join community challenges & leaderboards</li>
+                        <li>✔️ Set, achieve, and celebrate your fitness goals!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Water -->
+            <div class="card water-intake-card">
+                <h4>💧 Water Intake</h4>
+                <div id="water-progress-bar">
+                    <div id="water-bar-inner"></div>
+                </div>
+                <div class="water-meta">
+                    <span id="water-amount">0</span> ml / 4000 ml
+                    <button onclick="addWater()">+200 ml</button>
+                </div>
+            </div>
+
+            <!-- Motivation -->
+            <div class="card quote-card">
+                <h4>🧠 Motivation</h4>
+                <q id="quote-text">Push yourself, because no one else is going to do it for you.</q>
+                <br />
+                <button onclick="newQuote()">New Quote</button>
+            </div>
+
+            <!-- Sleep Tracker -->
+            <div class="card sleep-card">
+                <h4>🛌 Sleep Tracker</h4>
+                <p>Last Night: <span id="sleep-hours">7.5</span> hours</p>
+                <label>
+                    Log Sleep:
+                    <input type="number" id="sleep-input" min="0" max="12" step="0.5" placeholder="hours" />
+                    <button onclick="logSleep()">Save</button>
+                </label>
+            </div>
+
+            <!-- HIIT Generator -->
+            <div class="card hiit-card">
+                <h4>⚡ Quick HIIT Generator</h4>
+                <div id="hiit-workout">Press for workout</div>
+                <button onclick="genHIIT()">Generate</button>
+            </div>
+
+            <!-- Nutrition Tip -->
+            <div class="card nutrition-tip">
+                <h4>🥗 Nutrition Tip</h4>
+                <p id="nutri-tip">Eat colorful veggies for max nutrients!</p>
+                <button onclick="newTip()">More Tips</button>
+            </div>
+        </section>
+
+        <!-- PROGRESS SECTION -->
+        <section id="progress" class="section">
+            <h2>Progress Overview</h2>
+
+            <!-- 🌟 WEEKLY STEPS CHART -->
+            <div class="card">
+                <h3>📊 Weekly Steps</h3>
+                <canvas id="weeklyStepsChart" style="width:100%; max-width:600px;"></canvas>
+                <button id="saveWeeklyBtn">💾 Save Weekly Graph</button>
+                <p>This chart shows your steps for each day of the past week. Stay consistent for better results!</p>
+            </div>
+
+            <!-- Daily Routine -->
+            <div class="box">
+                <h3>Choose Fitness Routine</h3>
+                <label for="fitness-day-select">Select Day:</label>
+                <select id="fitness-day-select">
+                    <option value="0">Sunday</option>
+                    <option value="1">Monday</option>
+                    <option value="2">Tuesday</option>
+                    <option value="3">Wednesday</option>
+                    <option value="4">Thursday</option>
+                    <option value="5">Friday</option>
+                    <option value="6">Saturday</option>
+                </select>
+                <br />
+                <button id="show-fitness-routine">Show Routine</button>
+                <ul id="fitness-routine-output"></ul>
+            </div>
+
+            <!-- Simple Diet -->
+            <div class="card">
+                <h3>Simple Diet Plan</h3>
+                <ul>
+                    <li>Breakfast: Oats, banana, nuts, milk</li>
+                    <li>Mid-morning: Apple or nuts</li>
+                    <li>Lunch: Brown rice, dal, mixed veggies, curd</li>
+                    <li>Snack: Greek yogurt or fruit</li>
+                    <li>Dinner: Grilled protein (chicken/tofu), salad, roti</li>
+                    <li>Water: 2.5 - 3 liters/day</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- WORKOUTS SECTION -->
+        <section id="workouts" class="section">
+            <h2>Workout Library</h2>
+
+            <div class="workout-nav">
+                <button onclick="showWorkout('chest')">Chest</button>
+                <button onclick="showWorkout('biceps')">Biceps</button>
+                <button onclick="showWorkout('shoulder')">Shoulder</button>
+                <button onclick="showWorkout('triceps')">Triceps</button>
+                <button onclick="showWorkout('back')">Back</button>
+                <button onclick="showWorkout('legs')">Legs</button>
+                <button onclick="showWorkout('abs')">Abs</button>
+                <button onclick="showWorkout('cardio')">Cardio</button>
+                <button onclick="showWorkout('fullbody')">Full Body</button>
+
+            </div>
+
+            <!-- Workout Subsections with details and video -->
+            <div id="chest" class="workout-subsection" style="display:none;">
+                <h3>Chest Workout</h3>
+                <div>
+                    <img src="Push-Up.gif" alt="Burpees Demo" class="workout-gif" loading="lazy" decoding="async">
+                </div>
+                <p><b>Exercise:</b> Push-ups</p>
+                <p><b>Reps:</b> 3 sets of 12-15 reps</p>
+                <p><b>Tips:</b> Keep your back straight, engage your core, and lower chest to floor.</p>
+            </div>
+
+            <div id="biceps" class="workout-subsection" style="display:none;">
+                <h3>Biceps Workout</h3>
+                <div>
+                    <img src="Biceps.gif" alt="Burpees Demo" class="workout-gif" loading="lazy" decoding="async">
+                </div>
+                <p><b>Exercise:</b> Bicep Curls</p>
+                <p><b>Reps:</b> 3 sets of 10-15 reps</p>
+                <p><b>Tips:</b> Keep elbows close to your torso and move weights slowly.</p>
+            </div>
+
+            <div id="shoulder" class="workout-subsection" style="display:none;">
+                <h3>Shoulder Workout</h3>
+                <div>
+                    <img src="Front Raises.gif" alt="Burpees Demo" class="workout-gif" loading="lazy" decoding="async">
+                </div>
+                <p><b>Exercise:</b> Front Raises</p>
+                <p><b>Reps:</b> 3 sets of 12 reps</p>
+                <p><b>Tips:</b> Avoid swinging arms; focus on controlled motion.</p>
+            </div>
+
+            <div id="triceps" class="workout-subsection" style="display:none;">
+                <h3>Triceps Workout</h3>
+                <div>
+                    <img src="Triceps Dips.gif" alt="Burpees Demo" class="workout-gif" loading="lazy" decoding="async">
+                </div>
+                <p><b>Exercise:</b> Triceps Dips</p>
+                <p><b>Reps:</b> 3 sets of 10-12 reps</p>
+                <p><b>Tips:</b> Keep your back close to the bench, elbows pointing backward.</p>
+            </div>
+
+            <div id="back" class="workout-subsection" style="display:none;">
+                <h3>Back Workout</h3>
+                <div>
+                    <img src="Bent Over Rows.gif" alt="Burpees Demo" class="workout-gif" loading="lazy" decoding="async">
+                </div>
+                <p><b>Exercise:</b> Bent Over Rows</p>
+                <p><b>Reps:</b> 3 sets of 12 reps</p>
+                <p><b>Tips:</b> Keep back flat, pull elbows to ribs, squeeze shoulder blades.</p>
+            </div>
+
+            <div id="legs" class="workout-subsection" style="display:none;">
+                <h3>Leg Workout</h3>
+                <div>
+                    <img src="Squats.gif" alt="Burpees Demo" class="workout-gif" loading="lazy" decoding="async">
+                </div>
+                <p><b>Exercise:</b> Squats</p>
+                <p><b>Reps:</b> 3 sets of 12-15 reps</p>
+                <p><b>Tips:</b> Keep chest up, knees behind toes, and lower slowly.</p>
+            </div>
+
+            <div id="abs" class="workout-subsection" style="display:none;">
+                <h3>Abs Workout</h3>
+                <div>
+                    <img src="Crunch.gif" alt="Burpees Demo" class="workout-gif" loading="lazy" decoding="async">
+                </div>
+                <p><b>Exercise:</b> Crunches</p>
+                <p><b>Reps:</b> 3 sets of 15-20 reps</p>
+                <p><b>Tips:</b> Avoid pulling your neck; engage your core fully.</p>
+            </div>
+
+            <div id="cardio" class="workout-subsection" style="display:none;">
+                <h3>Cardio</h3>
+                <div>
+                    <img src="Jump-Rope.gif" alt="Burpees Demo" class="workout-gif" loading="lazy" decoding="async">
+                </div>
+                <p><b>Exercise:</b> Jump Rope</p>
+                <p><b>Duration:</b> 15-20 minutes</p>
+                <p><b>Tips:</b> Land softly, keep core tight, maintain steady pace.</p>
+            </div>
+
+            <div id="fullbody" class="workout-subsection" style="display:none;">
+                <h3>Full Body Workout</h3>
+                <div>
+                    <img src="Burpees.gif" alt="Burpees Demo" class="workout-gif" loading="lazy" decoding="async">
+                </div>
+
+                <p><b>Exercise:</b> Burpees</p>
+                <p><b>Reps:</b> 3 sets of 10-12 reps</p>
+                <p><b>Tips:</b> Land softly, move smoothly through each step, engage core.</p>
+            </div>
+
+
+
+        </section>
+
+        <!-- CALCULATORS SECTION -->
+        <section id="calculators" class="section">
+            <h2>Fitness Calculators</h2>
+
+            <div class="calculator">
+                <h3>BMI Calculator</h3>
+                <label>Height (cm): <input type="number" id="bmi-height" placeholder="e.g. 170" /></label>
+                <label>Weight (kg): <input type="number" id="bmi-weight" placeholder="e.g. 65" /></label>
+                <button onclick="calculateBMI()">Calculate BMI</button>
+                <p id="bmi-result"></p>
+            </div>
+
+            <div class="calculator">
+                <h3>Steps Calculator (Distance-Based)</h3>
+                <label>Distance (km):</label>
+                <input id="distance" type="number" step="0.01" placeholder="e.g. 2.5"><br>
+                <label>Step Length (m):</label>
+                <input id="stepLength" type="number" step="0.01" placeholder="e.g. 0.75"><br>
+                <button onclick="calculateSteps()">Calculate</button>
+                
+
+                <h3>Steps Calculator (Height-Based)</h3>
+                <label>Distance:</label>
+                <input id="distanceHeight" type="number" step="0.01" placeholder="e.g. 1.2">
+                <select id="distanceUnit">
+                    <option value="kilometers">Kilometers</option>
+                    <option value="meters">Meters</option>
+                </select><br>
+                <label>Height (cm):</label>
+                <input id="heightCm" type="number" placeholder="e.g. 170"><br>
+                <label>Height (inch):</label>
+                <input id="heightInch" type="number" placeholder="e.g. 67"><br>
+                <label>Height (foot):</label>
+                <input id="heightFoot" type="number" placeholder="e.g. 5.6"><br>
+                <button onclick="calculateHeightSteps()">Calculate</button>
+            </div>
+
+            <div class="calculator">
+                <h3>Steps to Calories Calculator</h3>
+                <label>Steps walked: <input type="number" id="steps-count" placeholder="e.g. 10000" /></label>
+                <label>Weight (kg): <input type="number" id="steps-weight" placeholder="e.g. 70" /></label>
+                <button onclick="calculateStepsCalories()">Calculate Calories Burned</button>
+                <p id="steps-calories-result"></p>
+            </div>
+
+            <div class="calculator">
+                <h3>BMR Calculator</h3>
+                <label>Age: <input type="number" id="bmr-age" placeholder="e.g. 30" /></label>
+                <label>Height (cm): <input type="number" id="bmr-height" placeholder="e.g. 170" /></label>
+                <label>Weight (kg): <input type="number" id="bmr-weight" placeholder="e.g. 65" /></label>
+                <label>Gender:
+                    <select id="bmr-gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </label>
+                <button onclick="calculateBMR()">Calculate BMR</button>
+                <p id="bmr-result"></p>
+            </div>
+
+            <div class="calculator">
+                <h3>Daily Calorie Needs</h3>
+                <label>Activity Level:
+                    <select id="activity-level">
+                        <option value="1.2">Sedentary</option>
+                        <option value="1.375">Lightly active</option>
+                        <option value="1.55">Moderately active</option>
+                        <option value="1.725">Very active</option>
+                        <option value="1.9">Extra active</option>
+                    </select>
+                </label>
+                <button onclick="calculateCalories()">Calculate Calories</button>
+                <p id="calorie-result"></p>
+            </div>
+        </section>
+
+        <!-- WELLNESS SECTION -->
+        <section id="wellness" class="section">
+            <h2>Wellness & Self-Care</h2>
+
+            <div class="card">
+                <h3>Mental Wellness Tips</h3>
+                <ul>
+                    <li>🌞 Take a 5-min morning stretch in sunlight</li>
+                    <li>📵 Unplug from electronics for 30 mins daily</li>
+                    <li>🧘 Practice deep breathing or meditation once a day</li>
+                    <li>📓 Write down 3 things you're grateful for before bed</li>
+                </ul>
+            </div>
+        </section>
+
+        
+
+    </main>
+
+    <!-- AI Voice Assistant Button -->
+    <button id="voice-assistant-btn">
+        🎤
+    </button>
+
+    <!-- Chatbot floating button -->
+    <button class="chatbot-btn" id="chatbotToggleBtn">
+        <img loading="lazy" decoding="async" src="https://cdn-icons-png.flaticon.com/128/8943/8943377.png"
+            alt="Chatbot Icon" />
+    </button>
+
+    <!-- Assistant popup -->
+    <div class="assistant-chat-popup hide" id="assistantPopup">
+        <!-- Close button -->
+        <button class="assistant-close-btn" id="assistantCloseBtn">&times;</button>
+
+        <!-- Chat header -->
+        <div class="assistant-chat-header">AI Fitness Assistant</div>
+
+        <!-- Chat messages body -->
+        <div class="assistant-chat-body" id="assistantBody"></div>
+
+        <!-- Input form -->
+        <form class="assistant-chat-input-wrap" onsubmit="return false;">
+            <input type="text" class="assistant-chat-input" id="assistantInput" placeholder="Type a question..." />
+            <button class="assistant-chat-send-btn" id="assistantSendBtn">&#8593;</button>
+        </form>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+
+</html>
